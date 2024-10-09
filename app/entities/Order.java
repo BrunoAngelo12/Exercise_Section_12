@@ -1,12 +1,15 @@
 package app.entities;
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import app.entities.enums.OrderStatus;
 
 public class Order {
+    SimpleDateFormat fmt1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
     private Date moment;
     private OrderStatus status;
 
@@ -17,6 +20,9 @@ public class Order {
         this.moment = moment;
         this.status = status;
         this.client = client;
+    }
+
+    public Order (){
     }
 
     public void addItem(OrderItem item){
@@ -63,9 +69,21 @@ public class Order {
         return items;
     }
 
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        double sum = 0.0;
+        sb.append("ORDER SUMARY:\nOrder moment: ").append(fmt1.format(moment)).append("\nOrder status: ")
+        .append(status).append("\nClient: ").append(client.getName()).append(" ")
+        .append(fmt.format(client.getBirthDate())).append(" - ").append(client.getEmail())
+        .append("\nOrder items: \n");
 
-    // continuar criando os métodos da classe
+        for(OrderItem x : items){
+            sb.append(x.geProduct().getName()).append(", R$").append(x.getPrice()).
+            append(", Quantity: ").append(x.getQuantity()).append(", Subtotal: R$")
+            .append(x.subTotal()).append("\n");
+            sum += x.subTotal();
+        }
+        sb.append("Total price: ").append("R$").append(sum);
+        return sb.toString();
+    }
 }

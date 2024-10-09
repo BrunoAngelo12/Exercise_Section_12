@@ -6,9 +6,10 @@ public class OrderItem {
 
     private Product product;
     
-    public OrderItem(Integer quantity, Double price) {
+    public OrderItem(Integer quantity, Double price, Product product) {
         this.quantity = quantity;
         this.price = price;
+        this.product = product;
     }
 
     public Integer getQuantity() {
@@ -27,8 +28,12 @@ public class OrderItem {
         this.price = price;
     }
 
-    public Double subTotal(){
+    public double subTotal(){
         double subTotal = this.quantity * this.price;
-        return subTotal();
+        return subTotal;
+    }
+
+    public Product geProduct(){
+        return this.product;
     }
 }
